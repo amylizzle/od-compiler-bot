@@ -5,7 +5,7 @@
 1. Python 3.11
 2. Poetry (Recommended)
 3. Docker (**Strongly** recommended that this is ran in rootless mode)
-4. ~10GB of disk space
+4. ~1GB of disk space
 
 ## About:
 

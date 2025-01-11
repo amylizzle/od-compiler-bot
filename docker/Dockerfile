@@ -6,10 +6,8 @@ COPY ./OpenDream/ .
 
 ARG BULD_CONFIG=Release
 
-RUN dotnet build OpenDreamServer --configuration ${BULD_CONFIG} && \
-	dotnet build DMCompiler --configuration ${BULD_CONFIG} && \
-    ln -s /opendream/bin/DMCompiler/DMCompiler /usr/bin/ && \
-    ln -s /opendream/bin/Content.Server/OpenDreamServer /usr/bin
+RUN ln -s /opendream/bin/DMCompiler_linux-x64/DMCompiler /usr/bin/ && \
+    ln -s /opendream/bin/OpenDreamServer_linux-x64/Robust.Server /usr/bin
 
 FROM builder
 

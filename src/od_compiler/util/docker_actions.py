@@ -22,10 +22,10 @@ def updateBuildImage(build_config: str) -> None:
     """
     od_path = Path.cwd().joinpath("OpenDream")
     try:
-        updateOD(od_repo_path=od_path)
+        updateOD(od_path=od_path)
     except BadName:
         compile_logger.warning("There was an error updating the repo. Cleaning up and trying again.")
-        updateOD(od_repo_path=od_path, clean=True)
+        updateOD(od_path=od_path, clean=True)
 
     compile_logger.info("Building the docker image...")
     client.images.build(

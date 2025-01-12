@@ -17,7 +17,7 @@ COPY docker/run.sh .
 
 RUN adduser odcompile -H -D && \
     chown -R odcompile: /app && \
-	chown -R odcompile: /opendream/bin
+	chown -R odcompile: /opendream
 
 USER odcompile
 

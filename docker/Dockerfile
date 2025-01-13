@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS builder
+FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS builder
+
 
 WORKDIR /opendream
 

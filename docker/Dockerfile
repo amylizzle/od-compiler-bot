@@ -1,24 +1,16 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS builder
 
 
-WORKDIR /opendream
+RUN adduser odcompile -H -D
 
-COPY ./OpenDream/ .
-
-ARG BULD_CONFIG=Release
+COPY --chown=odcompile ./OpenDream/ /opendream
 
 RUN ln -s /opendream/DMCompiler_linux-x64/DMCompiler /usr/bin/ && \
     ln -s /opendream/OpenDreamServer_linux-x64/Robust.Server /usr/bin
 
 FROM builder
 
-WORKDIR /app
-
-COPY docker/run.sh .
-
-RUN adduser odcompile -D && \
-    chown -R odcompile: /app && \
-    chown -R odcompile: /opendream
+COPY --chown=odcompile docker/run.sh /app
 
 USER odcompile
 

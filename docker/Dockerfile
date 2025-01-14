@@ -16,7 +16,7 @@ WORKDIR /app
 
 COPY docker/run.sh .
 
-RUN useradd odcompile -D && \
+RUN adduser odcompile -D && \
     chown -R odcompile: /app && \
     chown -R odcompile: /opendream
 

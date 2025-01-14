@@ -48,7 +48,6 @@ def test_compile_timeout(build_dir):
 
     chdir(build_dir)
     test_output = compileOD(codeText=code, compile_args=[""], build_config="Release", timeout=5)
-    print(test_output)
     assert test_output["timeout"] is True
 
 

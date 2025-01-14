@@ -1,24 +1,24 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS builder
+FROM mcr.microsoft.com/dotnet/runtime:9.0-alpine AS builder
 
 
 RUN adduser odcompile -H -D
+RUN apk add libsodium-dev
 
 WORKDIR /opendream
 
-COPY --chown=odcompile ./OpenDream/ .
+COPY ./OpenDream/ .
 
-RUN ln -s /opendream/DMCompiler_linux-x64/DMCompiler /usr/bin/
-RUN ln -s /opendream/OpenDreamServer_linux-x64/Robust.Server /usr/bin/
+RUN ln -s /opendream/DMCompiler_linux-x64/ /opendream/compiler
+RUN ln -s /opendream/OpenDreamServer_linux-x64/ /opendream/server
 
 FROM builder
 
 WORKDIR /app
 
-COPY --chown=odcompile docker/run.sh .
+COPY docker/run.sh .
 
-RUN chown -R odcompile:odcompile /opendream
-
-RUN chown -R odcompile:odcompile /app
+RUN chown -R odcompile: /opendream
+RUN chown -R odcompile: /app
 
 USER odcompile
 

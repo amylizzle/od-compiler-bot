@@ -16,6 +16,10 @@ WORKDIR /app
 
 COPY --chown=odcompile docker/run.sh .
 
+RUN chown -R odcompile:odcompile /opendream
+
+RUN chown -R odcompile:odcompile /app
+
 USER odcompile
 
 ENTRYPOINT [ "/bin/sh", "/app/run.sh" ]

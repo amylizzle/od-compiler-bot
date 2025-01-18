@@ -17,6 +17,7 @@ FROM builder
 WORKDIR /app
 
 COPY docker/run.sh .
+COPY docker/librust_g.so ./goonstation/librust_g.so
 
 RUN chown -R odcompile: /opendream
 RUN chown -R odcompile: /app

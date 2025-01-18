@@ -16,3 +16,10 @@ def od_repo_path(build_dir: Path) -> Path:
     od_repo = build_dir.joinpath("OpenDream")
     od_repo.mkdir()
     return od_repo
+
+
+@pytest.fixture(scope="session")
+def goon_repo_path(build_dir: Path) -> Path:
+    goon_repo = build_dir.joinpath("goonstation")
+    goon_repo.mkdir()
+    return goon_repo

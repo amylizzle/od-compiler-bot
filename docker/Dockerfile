@@ -7,6 +7,7 @@ RUN apk add libsodium-dev
 WORKDIR /opendream
 
 COPY ./OpenDream/ .
+COPY ./goonstation ./goonstation/
 
 RUN ln -s /opendream/DMCompiler_linux-x64/ /opendream/compiler
 RUN ln -s /opendream/OpenDreamServer_linux-x64/ /opendream/server

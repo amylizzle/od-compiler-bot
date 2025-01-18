@@ -7,7 +7,7 @@ from tests.utilities import runs_list
 
 def test_build_staging_create_files_without_main(build_dir):
     code = 'world.log << "Hello!"'
-    expected_files = ["code.dm", "map.dmm", "server_config.toml", "test.dme"]
+    expected_files = ["od_compile_bot.dm", "server_config.toml"]
     stage_dir = build_dir.joinpath("staging")
     stage_dir.mkdir()
 
@@ -19,12 +19,12 @@ def test_build_staging_create_files_without_main(build_dir):
 def test_build_staging_create_files_with_defined_main(build_dir):
     code = """\
 /proc/example()
-  world.log << "Hello!"
+    world.log << "Hello!"
 
-/proc/main()
-  example()
+/datum/unit_test/od_compile_bot/proc/main()
+    example()
 """
-    expected_files = ["code.dm", "map.dmm", "server_config.toml", "test.dme"]
+    expected_files = ["od_compile_bot.dm", "server_config.toml"]
     stage_dir = build_dir.joinpath("staging_proc")
     stage_dir.mkdir()
 
@@ -36,23 +36,22 @@ def test_build_staging_create_files_with_defined_main(build_dir):
 @pytest.mark.depends(on=["test_build_staging_create_files_with_defined_main"])
 def test_build_staging_verify_file_contents(build_dir):
     expected_output = """\
-/var/TEST/aaaaaa=new
-
 /proc/example()
   world.log << "Hello!"
 
-/proc/main()
+/datum/unit_test/od_compile_bot/proc/main()
   example()
 
 
-/TEST/New()
+
+/datum/unit_test/od_compile_bot/Run()
   world.log << "-------ODC-Start-------"
   main()
   world.log << "--------ODC-End--------"
-  shutdown()
+
 """
     stage_dir = build_dir.joinpath("staging_proc")
-    code_output = stage_dir.joinpath("code.dm").read_text()
+    code_output = stage_dir.joinpath("od_compile_bot.dm").read_text()
     assert code_output == expected_output
 
 

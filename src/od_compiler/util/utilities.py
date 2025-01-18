@@ -6,10 +6,8 @@ from pathlib import Path
 
 from od_compiler.util.compiler_logger import compile_logger
 
-MAIN_PROC = "/proc/main()"
-CODE_FILE = Path.cwd().joinpath("templates/code.dm")
-TEST_DME = Path.cwd().joinpath("templates/test.dme")
-MAP_FILE = Path.cwd().joinpath("templates/map.dmm")
+MAIN_PROC = "/datum/unit_test/od_compile_bot/proc/main()"
+CODE_FILE = Path.cwd().joinpath("templates/od_compile_bot.dm")
 OD_CONF = Path.cwd().joinpath("templates/server_config.toml")
 
 
@@ -91,10 +89,8 @@ def stageBuild(codeText: str, dir: Path) -> None:
     codeText: Arbitrary code to be loaded into a template file
     dir: Run directory that'll house all of the needed files
     """
-    shutil.copyfile(TEST_DME, dir.joinpath("test.dme"))
-    shutil.copyfile(MAP_FILE, dir.joinpath("map.dmm"))
     shutil.copyfile(OD_CONF, dir.joinpath("server_config.toml"))
-    with open(dir.joinpath("code.dm"), "a") as fc:
+    with open(dir.joinpath("od_compile_bot.dm"), "a") as fc:
         if MAIN_PROC not in codeText:
             fc.write(loadTemplate(codeText))
         else:

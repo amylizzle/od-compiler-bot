@@ -165,3 +165,7 @@ runs/
 
 # VSCode
 .vscode
+
+#goon & rustg
+goonstation
+rustg

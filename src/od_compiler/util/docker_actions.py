@@ -42,7 +42,6 @@ def updateBuildImage(build_config: str) -> None:
         client.images.build(
             path=f"{Path.cwd()}",
             dockerfile=Path.cwd().joinpath("docker/Dockerfile"),
-            forcerm=True,
             pull=True,
             encoding="gzip",
             tag="od-compiler:latest",

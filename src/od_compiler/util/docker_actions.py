@@ -43,6 +43,7 @@ def updateBuildImage(build_config: str) -> None:
             path=f"{Path.cwd()}",
             dockerfile=Path.cwd().joinpath("docker/Dockerfile"),
             pull=True,
+            forcerm=True,
             encoding="gzip",
             tag="od-compiler:latest",
             buildargs={"BULD_CONFIG": build_config},

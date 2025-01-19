@@ -21,7 +21,7 @@ def test_build_staging_create_files_with_defined_main(build_dir):
 /proc/example()
     world.log << "Hello!"
 
-/datum/unit_test/od_compile_bot/proc/main()
+/proc/main()
     example()
 """
     expected_files = ["od_compile_bot.dm", "server_config.toml"]
@@ -39,7 +39,7 @@ def test_build_staging_verify_file_contents(build_dir):
 /proc/example()
   world.log << "Hello!"
 
-/datum/unit_test/od_compile_bot/proc/main()
+/proc/main()
   example()
 
 

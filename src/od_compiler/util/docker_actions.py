@@ -6,6 +6,7 @@ from gitdb.exc import BadName
 from od_compiler.util.compiler_logger import compile_logger
 from od_compiler.util.git_actions import updateGoon
 from od_compiler.util.git_actions import updateOD
+from od_compiler.util.git_actions import updateRustG
 from od_compiler.util.utilities import cleanOldRuns
 from od_compiler.util.utilities import splitLogs
 from od_compiler.util.utilities import stageBuild
@@ -23,13 +24,16 @@ def updateBuildImage(build_config: str) -> None:
     """
     od_path = Path.cwd().joinpath("OpenDream")
     goon_repo_path = Path.cwd().joinpath("goonstation")
+    rg_repo_path = Path.cwd().joinpath("rustg")
     try:
         updateOD(od_path=od_path)
         updateGoon(goon_path=goon_repo_path)
+        updateRustG(rg_path=rg_repo_path)
     except BadName:
         compile_logger.warning("There was an error updating the repo. Cleaning up and trying again.")
         updateOD(od_path=od_path, clean=True)
         updateGoon(goon_path=goon_repo_path, clean=True)
+        updateRustG(rg_path=rg_repo_path, clean=True)
 
     compile_logger.info("Building the docker image...")
     client.images.build(

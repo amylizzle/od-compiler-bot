@@ -6,7 +6,7 @@ from pathlib import Path
 
 from od_compiler.util.compiler_logger import compile_logger
 
-MAIN_PROC = "/datum/unit_test/od_compile_bot/proc/main()"
+MAIN_PROC = "/proc/main()"
 CODE_FILE = Path.cwd().joinpath("templates/od_compile_bot.dm")
 OD_CONF = Path.cwd().joinpath("templates/server_config.toml")
 

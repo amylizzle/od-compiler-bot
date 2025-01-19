@@ -25,7 +25,7 @@ def updateGoon(goon_path: Path, clean: int = False) -> None:
     else:
         compile_logger.info("Repo not found. Cloning from GitHub.")
         goon = Repo.clone_from(
-            url="https://github.com/goonstation/goonstation.git",
+            url="https://github.com/amylizzle/goonstation.git",
             to_path=goon_path,
             multi_options=["--depth 1"],
         )
@@ -34,6 +34,35 @@ def updateGoon(goon_path: Path, clean: int = False) -> None:
     with open(goon_path / "_std" / "__build.dm", "a") as builddm:
         builddm.writelines(["#define UNIT_TESTS\n", "#define UNIT_TEST_TYPES /datum/unit_test/od_compile_bot\n"])
     compile_logger.info(f"The Goonstation repo is at: {goon.head.commit.hexsha}")
+
+
+def updateRustG(rg_path: Path, clean: int = False) -> None:
+    """
+    Update the Goonstation repository if it exists. If it doesn't, clone a fresh copy.
+    """
+    if clean:
+        from shutil import rmtree
+
+        rmtree(rg_path)
+
+    if Path.exists(rg_path):
+        rg = Repo(rg_path)
+        rg.remote().fetch()
+        # We reset HEAD to the upstream commit as a faster and more reliable way to stay up to date
+        rg.head.reset(commit="origin/master", working_tree=True)
+    else:
+        compile_logger.info("Repo not found. Cloning from GitHub.")
+        rg = Repo.clone_from(
+            url="https://github.com/goonstation/rust-g.git",
+            to_path=rg_path,
+            multi_options=["--depth 1"],
+        )
+
+    # edit lib.rs to allow for 64 bit compile
+    with open(rg_path / "src" / "lib.rs", "a") as librs:
+        librs.seek(0, os.SEEK_END)
+        librs.truncate(librs.tell() - 104)  # so hacky lol
+    compile_logger.info(f"The goon-rustg repo is at: {rg.head.commit.hexsha}")
 
 
 def updateOD(od_path: Path, clean: int = False) -> None:

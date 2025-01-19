@@ -10,8 +10,8 @@ WORKDIR /opendream
 COPY ./rustg ./rustg
 RUN cd ./rustg && cargo build --release
 
-COPY ./OpenDream/ .
-COPY ./goonstation ./goonstation/
+COPY --chown=odcompile ./OpenDream/ .
+COPY --chown=odcompile ./goonstation ./goonstation/
 
 RUN ln -s /opendream/DMCompiler_linux-x64/ /opendream/compiler
 RUN ln -s /opendream/OpenDreamServer_linux-x64/ /opendream/server
@@ -23,9 +23,6 @@ FROM builder
 WORKDIR /app
 
 COPY docker/run.sh .
-
-RUN chown -R odcompile: /opendream
-RUN chown -R odcompile: /app
 
 USER odcompile
 

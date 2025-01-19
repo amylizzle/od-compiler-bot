@@ -28,7 +28,7 @@ def updateGoon(goon_path: Path, clean: int = False) -> bool:
             compile_logger.info(f"The Goonstation repo is at: {goon.head.commit.hexsha} and does not need updating")
             return False
         # We reset HEAD to the upstream commit as a faster and more reliable way to stay up to date
-        goon.remote().fetch()
+        goon.remote().fetch(depth=1)
         goon.head.reset(commit="origin/master", working_tree=True)
     else:
         compile_logger.info("Repo not found. Cloning from GitHub.")
@@ -62,7 +62,7 @@ def updateRustG(rg_path: Path, clean: int = False) -> bool:
             compile_logger.info(f"The rustg repo is at: {rg.head.commit.hexsha} and does not need updating")
             return False
         # We reset HEAD to the upstream commit as a faster and more reliable way to stay up to date
-        rg.remote().fetch()
+        rg.remote().fetch(depth=1)
         rg.head.reset(commit="origin/master", working_tree=True)
     else:
         compile_logger.info("Repo not found. Cloning from GitHub.")

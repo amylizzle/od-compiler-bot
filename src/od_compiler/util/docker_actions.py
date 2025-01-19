@@ -25,27 +25,30 @@ def updateBuildImage(build_config: str) -> None:
     od_path = Path.cwd().joinpath("OpenDream")
     goon_repo_path = Path.cwd().joinpath("goonstation")
     rg_repo_path = Path.cwd().joinpath("rustg")
+    needs_rebuild = False
     try:
-        updateOD(od_path=od_path)
-        updateGoon(goon_path=goon_repo_path)
-        updateRustG(rg_path=rg_repo_path)
+        needs_rebuild = needs_rebuild | updateOD(od_path=od_path)
+        needs_rebuild = needs_rebuild | updateGoon(goon_path=goon_repo_path)
+        needs_rebuild = needs_rebuild | updateRustG(rg_path=rg_repo_path)
     except BadName:
+        needs_rebuild = True
         compile_logger.warning("There was an error updating the repo. Cleaning up and trying again.")
         updateOD(od_path=od_path, clean=True)
         updateGoon(goon_path=goon_repo_path, clean=True)
         updateRustG(rg_path=rg_repo_path, clean=True)
 
-    compile_logger.info("Building the docker image...")
-    client.images.build(
-        path=f"{Path.cwd()}",
-        dockerfile=Path.cwd().joinpath("docker/Dockerfile"),
-        forcerm=True,
-        pull=True,
-        encoding="gzip",
-        tag="od-compiler:latest",
-        buildargs={"BULD_CONFIG": build_config},
-    )
-    client.images.prune(filters={"dangling": True})
+    if needs_rebuild:
+        compile_logger.info("Building the docker image...")
+        client.images.build(
+            path=f"{Path.cwd()}",
+            dockerfile=Path.cwd().joinpath("docker/Dockerfile"),
+            forcerm=True,
+            pull=True,
+            encoding="gzip",
+            tag="od-compiler:latest",
+            buildargs={"BULD_CONFIG": build_config},
+        )
+        client.images.prune(filters={"dangling": True})
 
 
 def compileOD(

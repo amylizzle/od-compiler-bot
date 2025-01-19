@@ -22,7 +22,7 @@ Setup the python environment and install the required dependencies. If you have 
 To start an active server, run using gunicorn. You can specify the number of workers and the log level using the below command.
 
 ```
-gunicorn -b 127.0.0.1:5000 wsgi:app --log-level info --workers 1 --timeout 200
+gunicorn -b 127.0.0.1:5001 wsgi:app --log-level info --workers 1 --timeout 200
 ```
 
 Alternatively, you can start the application directly in developer debug mode with

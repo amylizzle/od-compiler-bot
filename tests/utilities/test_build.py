@@ -37,18 +37,17 @@ def test_build_staging_create_files_with_defined_main(build_dir):
 def test_build_staging_verify_file_contents(build_dir):
     expected_output = """\
 /proc/example()
-  world.log << "Hello!"
+    world.log << "Hello!"
 
 /proc/main()
-  example()
+    example()
 
 
 
 /datum/unit_test/od_compile_bot/Run()
-  world.log << "-------ODC-Start-------"
-  main()
-  world.log << "--------ODC-End--------"
-
+    world.log << "-------ODC-Start-------"
+    main()
+    world.log << "--------ODC-End--------"
 """
     stage_dir = build_dir.joinpath("staging_proc")
     code_output = stage_dir.joinpath("od_compile_bot.dm").read_text()
